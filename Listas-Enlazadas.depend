@@ -1,0 +1,22 @@
+# depslib dependency file v1.0
+1727297619 source:c:\users\lucas\desktop\subir a git\listas-enlazadas\lista.c
+	<stdio.h>
+	<stdlib.h>
+	"nodo.h"
+	"lista.h"
+
+1727297950 source:c:\users\lucas\desktop\subir a git\listas-enlazadas\main.c
+	<stdio.h>
+	<stdlib.h>
+	"lista.h"
+
+1727293950 source:c:\users\lucas\desktop\subir a git\listas-enlazadas\nodo.c
+	<stdio.h>
+	<stdlib.h>
+	"nodo.h"
+
+1727293927 c:\users\lucas\desktop\subir a git\listas-enlazadas\lista.h
+	"nodo.h"
+
+1727293970 c:\users\lucas\desktop\subir a git\listas-enlazadas\nodo.h
+
