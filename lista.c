@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "nodo.h"
 #include "lista.h"
 
@@ -15,14 +16,14 @@ ListaPtr crearLista(){
     return lista;
 };
 
-void insertarPrimero(ListaPtr lista, int dato){
+void insertarPrimero(ListaPtr lista, DatoPtr dato){
 
     NodoPtr nuevoNodo = crearNodo(dato, lista->primero);
     lista->primero = nuevoNodo;
 
 };
 
-void insertarUltimo(ListaPtr lista, int dato){
+void insertarUltimo(ListaPtr lista, DatoPtr dato){
     NodoPtr nuevoNodo = crearNodo(dato, NULL);
     NodoPtr actual = lista->primero;
 
@@ -36,7 +37,7 @@ void insertarUltimo(ListaPtr lista, int dato){
     }
 };
 
-void insertarPosicion(ListaPtr lista, int dato, int posicion){
+void insertarPosicion(ListaPtr lista, DatoPtr dato, int posicion){
 
     int tam = obtenerTamanio(lista);
 
@@ -66,18 +67,18 @@ void insertarPosicion(ListaPtr lista, int dato, int posicion){
     }
 };
 
-int obtenerPrimero(ListaPtr lista){
+DatoPtr obtenerPrimero(ListaPtr lista){
     if(lista->primero == NULL){
         printf("LISTA NULA\n");
-        return -1;
+        return NULL;
     }
     NodoPtr primero = lista->primero;
     return getDato(primero);
 };
-int obtenerUltimo(ListaPtr lista){
+DatoPtr obtenerUltimo(ListaPtr lista){
     if(lista->primero == NULL){
         printf("LISTA NULA\n");
-        return -1;
+        return NULL;
     }
 
     NodoPtr ultimo = lista->primero;
@@ -88,10 +89,10 @@ int obtenerUltimo(ListaPtr lista){
     return getDato(ultimo);
 };
 
-int obtenerPosicion(ListaPtr lista, int posicion){
+DatoPtr obtenerPosicion(ListaPtr lista, int posicion){
     if(lista->primero == NULL){
         printf("LISTA NULA\n");
-        return -1;
+        return NULL;
     }
     NodoPtr actual = lista->primero;
     for(int i=1; i<posicion;i++){
@@ -200,8 +201,8 @@ int obtenerTamanio(ListaPtr lista){
     return tamanio;
 };
 
-void ordenarLista(ListaPtr lista){
-    int aux;
+void ordenarLista(ListaPtr lista, int(*ordenarFuncion)(DatoPtr, DatoPtr)){
+    DatoPtr aux;
     int tam = obtenerTamanio(lista);
 
     for(int i=0; i< tam-1; i++){
@@ -209,7 +210,7 @@ void ordenarLista(ListaPtr lista){
         NodoPtr siguiente = getSiguiente(actual);
 
         for(int j=i+1; j< tam; j++){
-            if(getDato(actual) > getDato(getSiguiente(actual))){
+            if(ordenarFuncion(getDato(actual),getDato(getSiguiente(actual)))){
                 aux = getDato(actual);
                 setDato(actual, getDato(siguiente)); ///getDato(actual) = getDato(getSiguiente(actual));
                 setDato(siguiente,aux);              ///getDato(getSiguiente(actual)) = aux;
@@ -222,8 +223,11 @@ void ordenarLista(ListaPtr lista){
 };
 
 ListaPtr ordenarListaCopia(ListaPtr lista){
+    if (lista == NULL) {
+        return NULL;
+    }
     ListaPtr listaCopia = duplicarLista(lista);
-    ordenarLista(listaCopia);
+    ordenarLista(listaCopia, &compararInt);
     return listaCopia;
 };
 
@@ -249,51 +253,104 @@ ListaPtr duplicarLista(ListaPtr lista){
     return nuevaLista;
 };
 
-int buscarDato(ListaPtr lista, int datoBuscado){
-    if(getDato(lista->primero) == datoBuscado){
-        return getDato(lista->primero);
+int buscarDato(ListaPtr lista, DatoPtr datoBuscado, int (*compararFuncion)(DatoPtr, DatoPtr)) {
+    if (lista == NULL || lista->primero == NULL) {
+        return -1;
     }
-    int tam = obtenerTamanio(lista);
-    int encontro = -1;
-
     NodoPtr actual = lista->primero;
-    if(datoBuscado == obtenerUltimo(lista)){
-        return obtenerUltimo(lista);
-    }
-    for(int i=1; i<tam;i++){
-        if(datoBuscado == getDato(actual)){
-            encontro = i;
+    int posicion = 1;
+
+    while (actual != NULL) {
+        if (compararFuncion(getDato(actual), datoBuscado) == 0) {
+            return posicion;
         }
         actual = getSiguiente(actual);
+        posicion++;
     }
-    return encontro;
-};
 
-void insertarEnOrden(ListaPtr lista, int dato){
-    if(lista == NULL){
-        printf("Lista vacia");
+    return -1;
+}
+
+void insertarEnOrden(ListaPtr lista, DatoPtr dato, int (*compararFuncion)(DatoPtr, DatoPtr)){
+    if (lista == NULL) {
+        printf("Lista vacia\n");
+        return;
     }
-    NodoPtr nuevoNodo = crearNodo(dato,NULL);
-
-    if(lista->primero == NULL && getDato(lista->primero)>= dato){
+    NodoPtr nuevoNodo = crearNodo(dato, NULL);
+    if (nuevoNodo == NULL){
+        return;
+    }
+    if (lista->primero == NULL || compararFuncion(dato, getDato(lista->primero)) <= 0) {
         setSiguiente(nuevoNodo, lista->primero);
         lista->primero = nuevoNodo;
-    }else{
+    } else {
         NodoPtr actual = lista->primero;
-        while(getSiguiente(actual)!=NULL && getDato(getSiguiente(actual))<dato){
+        while (getSiguiente(actual) != NULL && compararFuncion(getDato(getSiguiente(actual)), dato) < 0) {
             actual = getSiguiente(actual);
         }
         setSiguiente(nuevoNodo, getSiguiente(actual));
         setSiguiente(actual, nuevoNodo);
     }
+}
+
+int compararInt(void * d1, void * d2){
+    int p1 = *(int*) d1;
+    int p2 = *(int*) d2;
+
+    return p1 > p2;
 };
 
-void mostrarLista(ListaPtr lista){
+int compararFloat(void * d1, void * d2){
+    float f1 = *(float*) d1;
+    float f2 = *(float*) d2;
+
+    return f1 > f2;
+};
+
+int compararChar(void * d1, void * d2) {
+    char *p1 = (char *) d1;
+    char *p2 = (char *) d2;
+
+    return strcmp(p1, p2);
+}
+
+int compararDatoPtr(void * d1, void * d2){
+    DatoPtr dato1 = *(DatoPtr *) d1;
+    DatoPtr dato2 = *(DatoPtr *) d2;
+
+    return getDato(dato1) > getDato(dato2);
+}
+
+void mostrarListaInt(ListaPtr lista){
     printf("LISTA\n");
     NodoPtr actual = lista->primero;
 
     while(actual != NULL){
-        mostrarNodo(actual);
+        mostrarNodoInt(actual);
+        actual = getSiguiente(actual);
+
+        }
+    printf("\n");
+};
+
+void mostrarListaFloat(ListaPtr lista){
+    printf("LISTA\n");
+    NodoPtr actual = lista->primero;
+
+    while(actual != NULL){
+        mostrarNodoFloat(actual);
+        actual = getSiguiente(actual);
+
+        }
+    printf("\n");
+};
+
+void mostrarListaChar(ListaPtr lista){
+    printf("LISTA\n");
+    NodoPtr actual = lista->primero;
+
+    while(actual != NULL){
+        mostrarNodoChar(actual);
         actual = getSiguiente(actual);
 
         }
@@ -304,10 +361,21 @@ void liberarLista(ListaPtr lista){
     NodoPtr actual = lista->primero;
 
     while(actual != NULL){
-        NodoPtr aux = getSiguiente(actual);
-        free(actual);
+        NodoPtr aux = actual;
         actual = getSiguiente(aux);
-
+        free(aux);
         }
     free(lista);
+};
+
+void mostrarListaGenerico(ListaPtr lista, void(*mostrarFuncion)(DatoPtr)){
+    printf("LISTA\n");
+    NodoPtr actual = lista->primero;
+
+    while(actual != NULL){
+        (*mostrarFuncion)(getDato(actual));
+        actual = getSiguiente(actual);
+
+        }
+    printf("\n");
 };

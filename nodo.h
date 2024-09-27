@@ -4,19 +4,35 @@
 struct Nodo;
 typedef struct Nodo * NodoPtr;
 
+typedef void * DatoPtr;
+
 /**
  * @brief Crea un nuevo nodo
  * @pre Ninguna
  * @post Retorna un nuevo nodo con el dato y siguiente especificados
  */
-NodoPtr crearNodo(int dato, NodoPtr siguiente);
+NodoPtr crearNodo(DatoPtr dato, NodoPtr siguiente);
 
 /**
- * @brief Muestra el contenido de un nodo
+ * @brief Muestra el contenido de un nodo int
  * @pre nodo no es NULL
  * @post Imprime el contenido del nodo en la salida estándar
  */
-void mostrarNodo(NodoPtr nodo);
+void mostrarNodoInt(NodoPtr nodo);
+
+/**
+ * @brief Muestra el contenido de un nodo float
+ * @pre nodo no es NULL
+ * @post Imprime el contenido del nodo en la salida estándar
+ */
+void mostrarNodoFloat(NodoPtr nodo);
+
+/**
+ * @brief Muestra el contenido de un nodo char
+ * @pre nodo no es NULL
+ * @post Imprime el contenido del nodo en la salida estándar
+ */
+void mostrarNodoChar(NodoPtr nodo);
 
 /**
  * @brief Libera la memoria ocupada por un nodo
@@ -32,7 +48,7 @@ void liberarNodo(NodoPtr nodo);
  * @pre nodo no es NULL
  * @post Retorna el dato almacenado en el nodo
  */
-int getDato(NodoPtr nodo);
+DatoPtr getDato(NodoPtr nodo);
 
 /**
  * @brief Obtiene el puntero al siguiente nodo
@@ -46,7 +62,7 @@ NodoPtr getSiguiente(NodoPtr nodo);
  * @pre nodo no es NULL
  * @post El dato del nodo es actualizado con el nuevo valor
  */
-void setDato(NodoPtr nodo, int nuevoDato);
+void setDato(NodoPtr nodo, DatoPtr nuevoDato);
 
 /**
  * @brief Establece un nuevo nodo siguiente

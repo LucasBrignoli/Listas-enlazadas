@@ -20,3 +20,56 @@
 
 1727293970 c:\users\lucas\desktop\subir a git\listas-enlazadas\nodo.h
 
+1727311335 source:c:\users\lucas\desktop\subir a git\listas-genericas\lista.c
+	<stdio.h>
+	<stdlib.h>
+	"nodo.h"
+	"lista.h"
+
+1727311244 c:\users\lucas\desktop\subir a git\listas-genericas\nodo.h
+
+1727311300 c:\users\lucas\desktop\subir a git\listas-genericas\lista.h
+	"nodo.h"
+
+1727311583 source:c:\users\lucas\desktop\subir a git\listas-genericas\main.c
+	<stdio.h>
+	<stdlib.h>
+	"lista.h"
+
+1727311244 source:c:\users\lucas\desktop\subir a git\listas-genericas\nodo.c
+	<stdio.h>
+	<stdlib.h>
+	"nodo.h"
+
+1727402646 source:c:\users\lucas\desktop\subir a git\listas-primitivas-genericas\lista.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"nodo.h"
+	"lista.h"
+
+1727311244 c:\users\lucas\desktop\subir a git\listas-primitivas-genericas\nodo.h
+
+1727403197 c:\users\lucas\desktop\subir a git\listas-primitivas-genericas\lista.h
+	"persona.h"
+	"nodo.h"
+
+1727384983 source:c:\users\lucas\desktop\subir a git\listas-primitivas-genericas\nodo.c
+	<stdio.h>
+	<stdlib.h>
+	"nodo.h"
+
+1727402337 source:c:\users\lucas\desktop\subir a git\listas-primitivas-genericas\main.c
+	<stdio.h>
+	<stdlib.h>
+	"persona.h"
+	"lista.h"
+
+1727402977 source:c:\users\lucas\desktop\subir a git\listas-primitivas-genericas\persona.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"persona.h"
+
+1727403169 c:\users\lucas\desktop\subir a git\listas-primitivas-genericas\persona.h
+
