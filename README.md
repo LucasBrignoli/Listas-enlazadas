@@ -1,0 +1,1 @@
+Este repositorio implementa una lista enlazada en C con funciones para crear, insertar, eliminar y buscar nodos. Permite duplicar y ordenar la lista, y manejar datos genéricos. Incluye funciones específicas para mostrar y liberar memoria de la lista, adaptándose a diferentes tipos de datos (int, float, char).
