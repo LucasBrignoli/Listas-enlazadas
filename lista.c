@@ -202,24 +202,46 @@ int obtenerTamanio(ListaPtr lista){
 };
 
 void ordenarLista(ListaPtr lista, int(*ordenarFuncion)(DatoPtr, DatoPtr)){
-    DatoPtr aux;
-    int tam = obtenerTamanio(lista);
+    int permutacion;
+    NodoPtr nodo;
+    NodoPtr ultimo = NULL;
 
-    for(int i=0; i< tam-1; i++){
-        NodoPtr actual = lista->primero;
-        NodoPtr siguiente = getSiguiente(actual);
-
-        for(int j=i+1; j< tam; j++){
-            if(ordenarFuncion(getDato(actual),getDato(getSiguiente(actual)))){
-                aux = getDato(actual);
-                setDato(actual, getDato(siguiente)); ///getDato(actual) = getDato(getSiguiente(actual));
-                setDato(siguiente,aux);              ///getDato(getSiguiente(actual)) = aux;
-            }
-             actual = siguiente;
-             siguiente= getSiguiente(siguiente);
-        }
-        actual = lista->primero;
+    if(obtenerTamanio(lista)< 2)
+    {
+        //ya esta ordenada, no hago nada
     }
+    else
+    {
+        do
+        {
+            permutacion = 0 ;
+            nodo = lista->primero;
+
+            while (getSiguiente(nodo) != ultimo)
+            {
+                if( ordenarFuncion(getDato(nodo),getDato(getSiguiente(nodo))) > 0)
+                {
+                    DatoPtr aux = getDato(nodo);
+                    setDato(nodo, getDato(getSiguiente(nodo)));
+                    setDato(getSiguiente(nodo), aux);
+                    permutacion = 1;
+
+                }
+                nodo = getSiguiente(nodo);
+            }
+            ultimo = nodo; //opcional!!!
+        }
+        while (permutacion!=0);
+    }
+};
+
+ListaPtr ordenarListaCopia(ListaPtr lista){
+    if (lista == NULL) {
+        return NULL;
+    }
+    ListaPtr listaCopia = duplicarLista(lista);
+    ordenarLista(listaCopia, &compararInt);
+    return listaCopia;
 };
 
 ListaPtr ordenarListaCopia(ListaPtr lista){
